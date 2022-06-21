@@ -1,8 +1,9 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
+import PropTypes from 'prop-types';
 import Books from './Books';
 
-const SearchBooks = ({ books, searchSubmit, onShelfChange, currentBooks }) => {
+const SearchBooks = ({ books, searchSubmit, onShelfChange }) => {
   const [query, setQuery] = useState('');
   const handleChange = (event) => {
     setQuery(event.target.value);
@@ -42,6 +43,10 @@ const SearchBooks = ({ books, searchSubmit, onShelfChange, currentBooks }) => {
   )
 }
 
-SearchBooks.propTypes = {}
+SearchBooks.propTypes = {
+  books: PropTypes.array.isRequired,
+  searchSubmit: PropTypes.func.isRequired,
+  onShelfChange: PropTypes.func.isRequired
+}
 
 export default SearchBooks
