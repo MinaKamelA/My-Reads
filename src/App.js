@@ -28,19 +28,15 @@ function App() {
   const onSearch = async (query) => {
     const res = await BooksAPI.search(query);
     if (res) {
-      // const shelfBooks= books.filter((book) => res.some((searchBook) => book.id === searchBook.id));
       const searchBooks = res.map((book) => {
         const bookOnShelf = books.find((shelfBook) =>
           shelfBook.id === book.id
         );
-        console.log(bookOnShelf);
         return ((bookOnShelf) ? bookOnShelf : book);
       });
-      console.log(searchBooks);
       setSearchBooks(searchBooks);
     }
   }
-  console.log(books);
   return (
     <div className="app">
       <Routes>
