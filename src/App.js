@@ -37,6 +37,10 @@ function App() {
       setSearchBooks(searchBooks);
     }
   }
+
+  const onSearchClick = () => {
+    setSearchBooks([]);
+  }
   return (
     <div className="app">
       <Routes>
@@ -55,7 +59,7 @@ function App() {
             </div>
           </div>
           <div className="open-search">
-            <Link to='/search'>Add a book</Link>
+            <Link to='/search' onClick={onSearchClick}>Add a book</Link>
           </div>
         </div>} />
       </Routes>
