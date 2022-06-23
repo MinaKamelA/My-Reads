@@ -4,12 +4,14 @@ import { Routes, Route, Link } from 'react-router-dom';
 import * as BooksAPI from "./BooksAPI";
 import BookShelf from "./components/BookShelf";
 import SearchBooks from "./components/SearchBooks";
+import BookDetails from "./components/BookDetails";
 
 function App() {
   const [books, setBooks] = useState([]);
   const [searchBooks, setSearchBooks] = useState([]);
   const shelf = ["currentlyReading", "read", "wantToRead"];
   const shelfName = ["Currently Reading", "Read", "Want to Read"];
+  const [searchError, setSearchError] = useState(false);
 
   useEffect(() => {
     const getBooks = async () => {
@@ -27,7 +29,7 @@ function App() {
 
   const onSearch = async (query) => {
     const res = await BooksAPI.search(query);
-    if (res) {
+    if (!res.error) {
       const searchBooks = res.map((book) => {
         const bookOnShelf = books.find((shelfBook) =>
           shelfBook.id === book.id
@@ -35,17 +37,24 @@ function App() {
         return ((bookOnShelf) ? bookOnShelf : book);
       });
       setSearchBooks(searchBooks);
+      setSearchError(false);
+    }
+    else {
+      setSearchBooks([]);
+      setSearchError(true);
     }
   }
 
   const onSearchClick = () => {
     setSearchBooks([]);
+    setSearchError(false);
   }
+
   return (
     <div className="app">
       <Routes>
         <Route path="/search" element={
-          <SearchBooks books={searchBooks} searchSubmit={onSearch} onShelfChange={changeShelf} />
+          <SearchBooks books={searchBooks} searchSubmit={onSearch} onShelfChange={changeShelf} haveError={searchError} />
         } />
         <Route exact path="/" element={<div className="list-books">
           <div className="list-books-title">
@@ -62,6 +71,7 @@ function App() {
             <Link to='/search' onClick={onSearchClick}>Add a book</Link>
           </div>
         </div>} />
+        <Route name="/book" path={`/:id`} element={<BookDetails onShelfChange={changeShelf} />} />
       </Routes>
     </div>
   );
