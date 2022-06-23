@@ -41,7 +41,7 @@ const SearchBooks = ({ books, searchSubmit, onShelfChange, haveError }) => {
         )}
         <div className="search-books-results">
           <ol className="books-grid">
-            <Books books={books} onShelfChange={onShelfChange} />
+            <Books books={books} onShelfChange={onShelfChange} search={true} />
           </ol>
         </div>
       </form>
