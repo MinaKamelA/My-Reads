@@ -1,4 +1,5 @@
 import PropTypes from 'prop-types';
+import { Droppable } from 'react-beautiful-dnd';
 import Books from './Books'
 
 const BookShelf = ({ shelf, shelfName, books, onShelfChange }) => {
@@ -6,9 +7,13 @@ const BookShelf = ({ shelf, shelfName, books, onShelfChange }) => {
     <div className="bookshelf">
       <h2 className="bookshelf-title">{shelfName}</h2>
       <div className="bookshelf-books">
-        <ol className="books-grid">
-          <Books books={books.filter((book) => book.shelf === shelf)} onShelfChange={onShelfChange} />
-        </ol>
+        <Droppable droppableId={shelf}>
+          {(provided) => (
+            <ol className="books-grid" {...provided.droppableProps} ref={provided.innerRef}>
+              <Books books={books.filter((book) => book.shelf === shelf)} onShelfChange={onShelfChange} search={false} />
+              {provided.placeholder}
+            </ol>)}
+        </Droppable>
       </div>
     </div>
   )

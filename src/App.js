@@ -1,6 +1,7 @@
 import "./App.css";
 import { useState, useEffect } from "react";
 import { Routes, Route, Link } from 'react-router-dom';
+import { DragDropContext } from "react-beautiful-dnd";
 import * as BooksAPI from "./BooksAPI";
 import BookShelf from "./components/BookShelf";
 import SearchBooks from "./components/SearchBooks";
@@ -50,6 +51,16 @@ function App() {
     setSearchError(false);
   }
 
+  const handleOnDragEnd = (result) => {
+    if (!result.destination) {
+      return;
+    }
+    const getBook = async () => {
+      const res = await BooksAPI.get(result.draggableId);
+      changeShelf(result.destination.droppableId, await res);
+    }
+    getBook();
+  }
   return (
     <div className="app">
       <Routes>
@@ -62,9 +73,11 @@ function App() {
           </div>
           <div className="list-books-content">
             <div>
-              <BookShelf shelf={shelf[0]} shelfName={shelfName[0]} books={books} onShelfChange={changeShelf} />
-              <BookShelf shelf={shelf[1]} shelfName={shelfName[1]} books={books} onShelfChange={changeShelf} />
-              <BookShelf shelf={shelf[2]} shelfName={shelfName[2]} books={books} onShelfChange={changeShelf} />
+              <DragDropContext onDragEnd={handleOnDragEnd}>
+                <BookShelf shelf={shelf[0]} shelfName={shelfName[0]} books={books} onShelfChange={changeShelf} />
+                <BookShelf shelf={shelf[1]} shelfName={shelfName[1]} books={books} onShelfChange={changeShelf} />
+                <BookShelf shelf={shelf[2]} shelfName={shelfName[2]} books={books} onShelfChange={changeShelf} />
+              </DragDropContext>
             </div>
           </div>
           <div className="open-search">
