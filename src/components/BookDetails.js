@@ -32,7 +32,6 @@ const BookDetails = ({ onShelfChange }) => {
         }
         getBook();
     }, [id])
-    console.log(book);
 
     return (
         <div className="book-details">
