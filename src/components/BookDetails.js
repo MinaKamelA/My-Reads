@@ -1,11 +1,12 @@
 import PropTypes from 'prop-types';
-import { Link, useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import ShelfChanger from './ShelfChanger';
 import * as BooksAPI from '../BooksAPI';
 
 const BookDetails = ({ onShelfChange }) => {
     const params = useParams();
+    const navigate = useNavigate();
     const { id } = params;
     const [book, setBook] = useState({
         title: "",
@@ -68,7 +69,7 @@ const BookDetails = ({ onShelfChange }) => {
                 </div>
             </div>
             <div className="back-home">
-                <Link to='/' >home</Link>
+                <a href='#na' onClick={() => navigate(-1)}>go back</a>
             </div>
         </div>
     )
