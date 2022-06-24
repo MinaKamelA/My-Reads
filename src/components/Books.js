@@ -51,7 +51,7 @@ const Books = ({ books, onShelfChange, search }) => {
                                 </div>
                                 <div className="book-title">{book.title}</div>
                                 <div className="book-authors">{book.authors}</div>
-                                <Link to="/book" state={{ id: book.id }}>Show more</Link>
+                                <Link to={`/book/${book.id}`} state={{ id: book.id }}>Show more</Link>
                             </div>
                         </li>
                     )}
