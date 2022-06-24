@@ -1,12 +1,14 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
+import { DebounceInput } from 'react-debounce-input';
 import Books from './Books';
 
 const SearchBooks = ({ books, searchSubmit, onShelfChange, haveError }) => {
   const [query, setQuery] = useState('');
   const handleChange = (event) => {
     setQuery(event.target.value);
+    searchSubmit(event.target.value);
   }
 
   const submitQuery = (event) => {
@@ -24,13 +26,12 @@ const SearchBooks = ({ books, searchSubmit, onShelfChange, haveError }) => {
             Close
           </Link>
           <div className="search-books-input-wrapper">
-            <input
-              type="text"
+            <DebounceInput
               placeholder="Search by title, author, or ISBN"
               name="query"
               value={query}
-              onChange={handleChange}
-            />
+              debounceTimeout={300}
+              onChange={handleChange} />
           </div>
         </div>
         {haveError && <div className="showing-search-error">Your search returned no results.</div>}

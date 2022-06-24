@@ -29,20 +29,26 @@ function App() {
   }
 
   const onSearch = async (query) => {
-    const res = await BooksAPI.search(query);
-    if (!res.error) {
-      const searchBooks = res.map((book) => {
-        const bookOnShelf = books.find((shelfBook) =>
-          shelfBook.id === book.id
-        );
-        return ((bookOnShelf) ? bookOnShelf : book);
-      });
-      setSearchBooks(searchBooks);
-      setSearchError(false);
+    if (query.length > 0) {
+      const res = await BooksAPI.search(query);
+      if (!res.error) {
+        const searchBooks = res.map((book) => {
+          const bookOnShelf = books.find((shelfBook) =>
+            shelfBook.id === book.id
+          );
+          return ((bookOnShelf) ? bookOnShelf : book);
+        });
+        setSearchBooks(searchBooks);
+        setSearchError(false);
+      }
+      else {
+        setSearchBooks([]);
+        setSearchError(true);
+      }
     }
     else {
       setSearchBooks([]);
-      setSearchError(true);
+      setSearchError(false);
     }
   }
 
@@ -84,7 +90,7 @@ function App() {
             <Link to='/search' onClick={onSearchClick}>Add a book</Link>
           </div>
         </div>} />
-        <Route name="/book" path={`/:id`} element={<BookDetails onShelfChange={changeShelf} />} />
+        <Route path="/book/:id" element={<BookDetails onShelfChange={changeShelf} />} />
       </Routes>
     </div>
   );
