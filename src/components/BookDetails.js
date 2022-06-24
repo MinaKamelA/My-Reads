@@ -1,12 +1,12 @@
 import PropTypes from 'prop-types';
-import { useLocation, Link } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import ShelfChanger from './ShelfChanger';
 import * as BooksAPI from '../BooksAPI';
 
 const BookDetails = ({ onShelfChange }) => {
-    const location = useLocation();
-    const { id } = location.state;
+    const params = useParams();
+    const { id } = params;
     const [book, setBook] = useState({
         title: "",
         authors: [],
